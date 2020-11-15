@@ -1,6 +1,6 @@
 package com.bankofamerica.accounts;
 
-public class AccountHolder {
+abstract class AccountHolder {
     private String firstName;
     private String lastName;
     private String phoneNumber;

@@ -4,6 +4,7 @@ public class Employee extends AccountHolder {
 
     private String title;
     private String employeeId;
+    private double salary;
 
     public Employee() {
 
