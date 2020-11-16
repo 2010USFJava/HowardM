@@ -15,7 +15,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
     public static ConnFactory cf = ConnFactory.getInstance();
 
-
+//this is a comment
     @Override
     public List<Customer> getAllCustomers() throws SQLException {
         List<Customer>customerList= new ArrayList<Customer>();
