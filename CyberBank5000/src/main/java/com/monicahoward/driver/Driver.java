@@ -1,9 +1,23 @@
 package com.monicahoward.driver;
 
+import com.monicahoward.beans.Customer;
+import com.monicahoward.daoimpl.CustomerDaoImpl;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Driver {
     public static void main(String[] args) {
+        CustomerDaoImpl cdi= new CustomerDaoImpl();
+        try{
+            ArrayList<Customer> custoList = (ArrayList<Customer>)cdi.getAllCustomers();
+            System.out.println(custoList.toString());
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+
 //        Scanner scan = new Scanner(System.in);
 //        String customerInput = scan.next();
         header();

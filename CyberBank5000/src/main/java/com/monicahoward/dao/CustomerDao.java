@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface CustomerDao {
     //crud operations
-    public List<Customer> getAllCustomers() throws SQLException;
+    List<Customer> getAllCustomers() throws SQLException;
+
+    void register(Customer custo) throws SQLException;
 
 }

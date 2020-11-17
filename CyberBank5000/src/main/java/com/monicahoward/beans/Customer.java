@@ -9,15 +9,16 @@ public class Customer {
         this.customerId = customerId;
     }
 
-    int customerId;
-    String name;
-    String username;
-    String password;
-    String accountNumber;
+    private int customerId;
+    private String name;
+    private String username;
+    private String password;
+    private String accountNumber;
 
     public Customer(int customerId, String name, String username, String password, String accountNumber){
+        this.customerId = customerId;
         this.name = name;
-        this.username = name;
+        this.username = username;
         this.password = password;
         this.accountNumber = accountNumber;
     }
