@@ -11,4 +11,6 @@ public interface CustomerDao {
 
     void register(Customer custo) throws SQLException;
 
+    void login(String username, String customerpassword) throws SQLException;
+
 }

@@ -8,6 +8,6 @@ public interface EmployeeDao {
 
     Employee retrieveById(int id) throws SQLException;
 
-    Employee login(String userName, String password) throws SQLException;
+    void login(String userName, String password) throws SQLException;
 
 }

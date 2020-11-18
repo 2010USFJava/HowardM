@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class EmployeeDaoImpl implements EmployeeDao {
     public static ConnFactory cf = ConnFactory.getInstance();
@@ -22,27 +23,49 @@ public class EmployeeDaoImpl implements EmployeeDao {
         ResultSet rs = ps.executeQuery();
         Employee emp = null;
 
-        while (rs.next()){
+        while (rs.next()) {
             emp = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
         }
         return emp;
     }
 
-    public Employee login(String userName, String password) throws SQLException {
+    public void login(String username, String password) throws SQLException {
+        EmployeeDaoImpl edi = new EmployeeDaoImpl();
         Connection conn = cf.getConnection();
+        String sql = "select * from employee where username=? and password=";
         try {
-            PreparedStatement ps = conn.prepareStatement("Select * from employee WHERE  userName=? AND password=?");
-            ps.setString(1, userName);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                return fromUserResultSet(rs);
+
+            Properties props = new Properties();
+//            String custoUName = (String) props.get(custoUName);
+//            String custoPass = (String) props.get(custoPass);
+
+            if (rs.next()) {
+                Employee e = new Employee();
+                e.setName(rs.getString("name"));
+                System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                System.out.println("                      Welcome back,  " + e.getName());
+                System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+//                System.out.println(rs.getString("password"));
             }
-        }catch (SQLException e) {
+            if (rs.next() == false) {
+                System.out.println("! ! ! ! ! ! ! ! ! ! ! !   E R R O R  ! ! ! ! ! ! ! ! ! ! ! !");
+                System.out.println("Sorry, there is no employee account with that username/password combo");
+                System.out.println("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !  ! ! ! ! ! ! ! ! ! ! !");
+
+            } else {
+                throw new SQLException();
+            }
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
+
 
     private Employee fromUserResultSet(ResultSet rs) throws SQLException {
         Employee employee = new Employee();

@@ -2,20 +2,21 @@ package com.monicahoward.driver;
 
 import com.monicahoward.beans.Customer;
 import com.monicahoward.daoimpl.CustomerDaoImpl;
+import com.monicahoward.daoimpl.EmployeeDaoImpl;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Driver {
     public static void main(String[] args) {
-        CustomerDaoImpl cdi= new CustomerDaoImpl();
-        try{
-            ArrayList<Customer> custoList = (ArrayList<Customer>)cdi.getAllCustomers();
-            System.out.println(custoList.toString());
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+//        CustomerDaoImpl cdi= new CustomerDaoImpl();
+//        try{
+//            ArrayList<Customer> custoList = (ArrayList<Customer>)cdi.getAllCustomers();
+//            System.out.println(custoList.toString());
+//        } catch (SQLException e){
+//            e.printStackTrace();
+//        }
 
 
 //        Scanner scan = new Scanner(System.in);
@@ -83,8 +84,22 @@ public class Driver {
         String userName = scan.next();
         System.out.println("Enter your password");
         String password = scan.next();
+        CustomerDaoImpl cdi = new CustomerDaoImpl();
 
-        System.out.println("Welcome back, " + userName);
+
+       try{
+           cdi.login(userName, password);
+       }
+       catch (SQLException e){
+
+       }
+       customerMenu();
+    }
+
+    public static String getAccountNumber(){
+        int random_int = 10000 + new Random().nextInt(9000000);
+        String s = String.valueOf(random_int);
+        return s;
     }
 
     public static void customerPortalRegister(){
@@ -95,9 +110,18 @@ public class Driver {
         String userName = scan.next();
         System.out.println("Enter your password");
         String password = scan.next();
+        String acctNumber = getAccountNumber();
 
+        CustomerDaoImpl cdi = new CustomerDaoImpl();
+        Customer custo = new Customer(0, name, userName, password, acctNumber);
+        try{
+            cdi.register(custo);
 
-        System.out.println(name + " Please Login in later using the username " + userName + " plus the password " + password + "  to check the status of your account");
+            System.out.println(custo.toString());
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
         startMenu();
 
     }
@@ -114,6 +138,15 @@ public class Driver {
         System.out.println("Enter your password");
         String password = scan.next();
 
+        EmployeeDaoImpl edi = new EmployeeDaoImpl();
+
+        try{
+            edi.login(userName, password);
+        }
+        catch (SQLException e){
+
+        }
+
         System.out.println("Welcome back, " + userName);
 
     }
@@ -121,6 +154,49 @@ public class Driver {
 
     public static void errorMessage(){
         System.out.println("Please make a valid selection");
+
+    }
+    public static void customerMenu() {
+//        System.out.println("W E L C O M E  B A C K!");
+
+        System.out.println("What would you like to do?");
+        System.out.println("1. See full account summary");
+        System.out.println("2. Check your balance");
+        System.out.println("3. Make a withdrawal");
+        System.out.println("4. Make a deposit");
+        System.out.println("0. Exit");
+
+        Scanner sc = new Scanner(System.in);
+
+        int userChoice = Integer.parseInt(sc.nextLine());
+
+        switch (userChoice) {
+
+            case 1:
+                System.out.println("You previously created an account");
+                customerMenu();
+                break;
+            case 2:
+                System.out.println("Your current balance is " );
+                customerMenu();
+                break;
+            case 3:
+                Customer.withdrawal();
+                customerMenu();
+                break;
+            case 4:
+                Customer.deposit();
+                customerMenu();
+                break;
+            case 0:
+                System.out.println("Goodbye!");
+                break;
+            default:
+                System.out.println("**********************************");
+                System.out.println("* Please make a valid selection. *");
+                System.out.println("**********************************");
+                customerMenu();
+        }
 
     }
 }
